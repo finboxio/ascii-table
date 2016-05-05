@@ -1,6 +1,6 @@
 {
-  "name": "ascii-table",
-  "version": "0.0.9",
+  "name": "finboxio-ascii-table",
+  "version": "0.0.9-fork",
   "author": "Beau Sorensen <mail@beausorensen.com> (http://github.com/sorensen)",
   "description": "Easy tables for your console data",
   "repository": {
