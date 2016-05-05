@@ -5,6 +5,8 @@
  * https://github.com/sorensen/ascii-table
  */
 
+var length = require('string-length')
+
 ;(function() {
 'use strict';
 
@@ -85,9 +87,9 @@ AsciiTable.alignLeft = function(str, len, pad) {
   if (str === undefined || str === null) str = ''
   if (typeof pad === 'undefined') pad = ' '
   if (typeof str !== 'string') str = str.toString()
-  var alen = len + 1 - str.length
+  var alen = len + 1 - length(str)
   if (alen <= 0) return str
-  return str + Array(len + 1 - str.length).join(pad)
+  return str + Array(len + 1 - length(str)).join(pad)
 }
 
 /**
@@ -104,12 +106,12 @@ AsciiTable.alignCenter = function(str, len, pad) {
   if (str === undefined || str === null) str = ''
   if (typeof pad === 'undefined') pad = ' '
   if (typeof str !== 'string') str = str.toString()
-  var nLen = str.length
+  var nLen = length(str)
     , half = Math.floor(len / 2 - nLen / 2)
     , odds = Math.abs((nLen % 2) - (len % 2))
-    , len = str.length
+    , len = length(str)
 
-  return AsciiTable.alignRight('', half, pad) 
+  return AsciiTable.alignRight('', half, pad)
     + str
     + AsciiTable.alignLeft('', half + odds, pad)
 }
@@ -128,9 +130,9 @@ AsciiTable.alignRight = function(str, len, pad) {
   if (str === undefined || str === null) str = ''
   if (typeof pad === 'undefined') pad = ' '
   if (typeof str !== 'string') str = str.toString()
-  var alen = len + 1 - str.length
+  var alen = len + 1 - length(str)
   if (alen <= 0) return str
-  return Array(len + 1 - str.length).join(pad) + str
+  return Array(len + 1 - length(str)).join(pad) + str
 }
 
 /**
@@ -150,7 +152,7 @@ AsciiTable.alignAuto = function(str, len, pad) {
   if (type !== '[object String]') {
     str = str.toString()
   }
-  if (str.length < len) {
+  if (length(str) < len) {
     switch(type) {
       case '[object Number]': return AsciiTable.alignRight(str, len, pad)
       default: return AsciiTable.alignLeft(str, len, pad)
@@ -187,7 +189,7 @@ AsciiTable.arrayFill = function(len, fill) {
  * @api public
  */
 
-AsciiTable.prototype.reset = 
+AsciiTable.prototype.reset =
 AsciiTable.prototype.clear = function(name) {
   this.__name = ''
   this.__nameAlign = AsciiTable.CENTER
@@ -357,7 +359,7 @@ AsciiTable.prototype.setHeadingAlign = function(dir) {
 
 /**
  * Add a row of information to the table
- * 
+ *
  * @param {...|Array} argument values in order of columns
  * @api public
  */
@@ -470,7 +472,7 @@ AsciiTable.prototype.toJSON = function() {
  * @api public
  */
 
-AsciiTable.prototype.parse = 
+AsciiTable.prototype.parse =
 AsciiTable.prototype.fromJSON = function(obj) {
   return this
     .clear()
@@ -497,7 +499,7 @@ AsciiTable.prototype.toString = function() {
     , rows = this.__rows
     , justify
     , border = this.__border
-    , all = this.__heading 
+    , all = this.__heading
         ? [this.__heading].concat(rows)
         : rows
 
@@ -512,7 +514,7 @@ AsciiTable.prototype.toString = function() {
   this.__colMaxes = max
   justify = this.__justify ? Math.max.apply(null, max) : 0
 
-  // Get 
+  // Get
   max.forEach(function(x) {
     total += justify ? justify : x + self.__spacing
   })
@@ -599,7 +601,7 @@ AsciiTable.prototype._renderRow = function(row, str, align) {
       , cAlign = this.__aligns[k]
       , use = align
       , method = 'alignAuto'
-  
+
     if (typeof align === 'undefined') use = cAlign
 
     if (use === AsciiTable.LEFT) method = 'alignLeft'
