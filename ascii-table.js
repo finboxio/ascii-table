@@ -508,7 +508,7 @@ AsciiTable.prototype.toString = function() {
     var row = all[i]
     for (var k = 0; k < mLen; k++) {
       var cell = row[k]
-      max[k] = Math.max(max[k], cell ? cell.toString().length : 0)
+      max[k] = Math.max(max[k], cell ? length(cell.toString()) : 0)
     }
   }
   this.__colMaxes = max
